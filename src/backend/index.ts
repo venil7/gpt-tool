@@ -1,7 +1,7 @@
 import bodyParser from "body-parser";
 import express from "express";
 import JS from "json-server";
-import { chatCompletionHandler } from "./handlers/handlers";
+import { chatCompletionHandler, logEntriesHandler } from "./handlers/handlers";
 
 declare global {
   var apiServer: { close: () => void };
@@ -15,7 +15,7 @@ const JSON_SERVER_PORT: number =
 global.apiServer?.close();
 global.jsonServer?.close();
 
-const db = `${__dirname}/db.json`;
+const db = `./db.json`;
 
 const jsonServer = JS.create();
 const jsonRouter = JS.router(db);
@@ -28,6 +28,8 @@ jsonApp.use(middlewares);
 jsonApp.use("/db", jsonServer.use(jsonRouter));
 
 apiApp.use(bodyParser.json());
+
+apiApp.get("/chat/logs", logEntriesHandler);
 apiApp.post("/chat/completion", chatCompletionHandler);
 
 global.apiServer = apiApp.listen(API_PORT, "0.0.0.0", () =>

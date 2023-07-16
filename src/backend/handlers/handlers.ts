@@ -12,7 +12,7 @@ import { readerTaskEitherDecoder } from "../../decoders/util";
 import { AppError } from "../../domain/error";
 import { LogEntry, logEntry } from "../../domain/log_entry";
 import { ChatResponse, fromSimpleRequest } from "../../domain/openapi/chat";
-import { createLogEntry } from "../../services/log_entry";
+import { createLogEntry, getLogEntries } from "../../services/log_entry";
 import { createChatCompletion } from "../../services/openai/chat";
 import { HandlerAction, HandlerParams, expressify } from "../util";
 
@@ -25,7 +25,6 @@ const chatCompletion = (): HandlerAction<LogEntry> => {
     bind("response", ({ request }) =>
       pipe(
         request,
-        // createChatCompletion2,
         createChatCompletion,
         fromTaskEither<AppError, ChatResponse, HandlerParams>
       )
@@ -37,3 +36,11 @@ const chatCompletion = (): HandlerAction<LogEntry> => {
   );
 };
 export const chatCompletionHandler = expressify(chatCompletion());
+
+const logEntries = (): HandlerAction<LogEntry[]> => {
+  return pipe(
+    getLogEntries(),
+    fromTaskEither<AppError, LogEntry[], HandlerParams>
+  );
+};
+export const logEntriesHandler = expressify(logEntries());

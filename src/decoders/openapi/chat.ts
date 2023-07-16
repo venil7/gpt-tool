@@ -38,7 +38,8 @@ export const ChatRequestDecoder = t.type({
 });
 
 export const SimpleRequestDecoder = t.type({
-  content: t.string,
+  system: t.string,
+  user: t.string,
 });
 
 export const ChatResponseDecoder = t.type({

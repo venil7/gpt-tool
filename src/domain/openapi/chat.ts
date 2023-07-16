@@ -27,13 +27,19 @@ export type ChatResponse = t.TypeOf<typeof ChatResponseDecoder>;
 
 export type SimpleRequest = t.TypeOf<typeof SimpleRequestDecoder>;
 
-export const fromSimpleRequest = ({ content }: SimpleRequest): ChatRequest => ({
+export const fromSimpleRequest = ({
+  system,
+  user,
+}: SimpleRequest): ChatRequest => ({
   model: ChatCompletionsModel.GPT35_TURBO_16K,
   messages: [
     {
       role: ChatRole.System,
-      content: "you're a coding teacher, provide code only as response",
+      content: system,
     },
-    { role: ChatRole.User, content },
+    {
+      role: ChatRole.User,
+      content: user,
+    },
   ],
 });
