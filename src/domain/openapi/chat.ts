@@ -27,6 +27,12 @@ export type ChatResponse = t.TypeOf<typeof ChatResponseDecoder>;
 
 export type SimpleRequest = t.TypeOf<typeof SimpleRequestDecoder>;
 
+export const defaultSimpleRequest = (): SimpleRequest => ({
+  model: ChatCompletionsModel.GPT35_TURBO_16K,
+  system: "",
+  user: "",
+});
+
 export const fromSimpleRequest = ({
   system,
   user,

@@ -2,6 +2,7 @@ import { fromTaskEither } from "fp-ts/lib/ReaderTaskEither";
 import { fromEither, mapLeft } from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
+import { Nullable } from "vite-node";
 import { AppError, genericError } from "../domain/error";
 
 export const taskEitherDecoder = <T, U = unknown>(decoder: t.Decoder<U, T>) => {
@@ -19,4 +20,10 @@ export const readerTaskEitherDecoder = <T, R, U = unknown>(
 ) => {
   return (data: U) =>
     pipe(data, taskEitherDecoder(decoder), fromTaskEither<AppError, T, R>);
+};
+
+export const nullableDecoder = <T>(
+  decoder: t.Type<T, unknown, unknown>
+): t.Type<Nullable<T>, unknown> => {
+  return t.union([t.null, t.undefined, decoder]);
 };

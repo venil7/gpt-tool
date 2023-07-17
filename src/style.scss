@@ -1,0 +1,15 @@
+textarea.form-control, 
+textarea.form-control:focus, 
+textarea.form-control:active {
+  background-color:rgb(246, 244, 241);
+}
+
+
+.nav-link {
+  &:not(.active) {
+    cursor: pointer;
+  }
+  &.active {
+    cursor: default;
+  }
+}
