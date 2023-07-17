@@ -56,3 +56,14 @@ export function withError<P extends Props>(
       <Component {...(rest as unknown as P)} />
     );
 }
+export type WithVisibility<TProps extends Props> = Identity<
+  TProps & {
+    hidden?: Nullable<boolean>;
+  }
+>;
+export function withVisibility<P extends Props>(
+  Component: React.FC<P>
+): React.FC<WithVisibility<P>> {
+  return ({ hidden, ...rest }: WithVisibility<P>) =>
+    hidden ? null : <Component {...(rest as unknown as P)} />;
+}

@@ -1,84 +1,66 @@
 import { pipe } from "fp-ts/lib/function";
-import { FormEvent, useCallback } from "react";
-import ReactMarkdown from "react-markdown";
-import { Col, FormGroup, Input, Label, Row, TabPane } from "reactstrap";
-import remarkGfm from "remark-gfm";
+import { useState } from "react";
+import {
+  Button,
+  Col,
+  Row,
+  TabPaneProps,
+  TabPane as TabPaneRaw,
+} from "reactstrap";
 import { LogEntry } from "../../domain/log_entry";
-import { withError, withFetching } from "../../enhancers";
-import { usePartialState } from "../../hooks/partial_update";
+import { withError, withFetching, withVisibility } from "../../enhancers";
 import { Tabs } from "../utils/Tabs";
+import { Request } from "./Request";
+import { RequestPreview } from "./RequestPreview";
+import { Response } from "./Response";
 
 export type EntryProps = {
   entry: LogEntry;
   onSubmit: (entry: LogEntry) => unknown;
+  disabled?: boolean;
 };
 
-const RawEntry: React.FC<EntryProps> = ({ entry }) => {
-  const [request, setRequest] = usePartialState(entry.request);
+const TabPane = pipe(
+  TabPaneRaw as unknown as React.FC<TabPaneProps>,
+  withVisibility
+);
 
-  const handleSystemChange = useCallback(
-    ({ currentTarget }: FormEvent<HTMLInputElement>) =>
-      pipe(currentTarget.value, setRequest("system")),
-    [setRequest]
-  );
-
-  const handleUserChange = useCallback(
-    ({ currentTarget }: FormEvent<HTMLInputElement>) =>
-      pipe(currentTarget.value, setRequest("user")),
-    [setRequest]
-  );
+const RawEntry: React.FC<EntryProps> = ({ entry, onSubmit, disabled }) => {
+  const [request, setRequest] = useState(entry.request);
+  const handleClick = () => onSubmit({ ...entry, request });
 
   return (
-    <Tabs tabs={["Raw Markdown", "Preview"]}>
-      <TabPane tabId={0}>
-        <Row>
-          <Col sm="12">
-            <FormGroup>
-              <Label for="system">System</Label>
-              <Input
-                rows={4}
-                id="system"
-                name="system"
-                type="textarea"
-                value={request.system}
-                onInput={handleSystemChange}
-              />
-            </FormGroup>
-          </Col>
-          <Col sm="12">
-            <FormGroup>
-              <Label for="user">User</Label>
-              <Input
-                rows={10}
-                id="user"
-                name="user"
-                type="textarea"
-                value={request.user}
-                onInput={handleUserChange}
-              />
-            </FormGroup>
-          </Col>
-        </Row>
-      </TabPane>
-      <TabPane tabId={1}>
-        <Row>
-          <Col sm="12">
-            <h3>System</h3>
-            <ReactMarkdown
-              children={request.system}
-              remarkPlugins={[remarkGfm]}
-            />
-          </Col>
-          <Col sm="12">
-            <h3>User</h3>
-            <ReactMarkdown
-              children={request.user}
-              remarkPlugins={[remarkGfm]}
-            />
-          </Col>
-        </Row>
-      </TabPane>
-    </Tabs>
+    <>
+      <Tabs tabs={["Raw Request", "Preview Request", "Response"]}>
+        <TabPane tabId={0}>
+          <Request
+            request={request}
+            onChange={setRequest}
+            disabled={disabled}
+          />
+        </TabPane>
+        <TabPane tabId={1}>
+          <RequestPreview request={request} />
+        </TabPane>
+        <TabPane tabId={2} hidden={!entry.response}>
+          <Response response={entry.response} disabled={disabled} />
+        </TabPane>
+      </Tabs>
+
+      <hr />
+      <Row>
+        <Col>
+          <Button
+            size="lg"
+            color="primary"
+            disabled={disabled}
+            onClick={handleClick}
+          >
+            Submit
+          </Button>
+        </Col>
+      </Row>
+    </>
   );
 };
 

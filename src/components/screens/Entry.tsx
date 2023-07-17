@@ -7,10 +7,10 @@ export const EntryScreen: React.FC = () => {
 
   return (
     <Entry
-      entry={entry.data.value}
-      fetching={entry.fetching.value}
-      error={entry.error.value}
       onSubmit={entry.submit}
+      entry={entry.data.value}
+      error={entry.error.value}
+      fetching={entry.fetching.value}
     />
   );
 };
