@@ -4,7 +4,9 @@ import JS from "json-server";
 import { chatCompletionHandler, logEntriesHandler } from "./handlers/handlers";
 
 declare global {
+  // eslint-disable-next-line
   var apiServer: { close: () => void };
+  // eslint-disable-next-line
   var jsonServer: { close: () => void };
 }
 

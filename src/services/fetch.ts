@@ -13,6 +13,13 @@ export enum HttpMethod {
   Delete = "DELETE",
 }
 
+export const jsonInit: RequestInit = {
+  headers: [
+    ["Accept", "application/json"],
+    ["Content-Type", "application/json"],
+  ],
+};
+
 export const createFetch =
   (method: HttpMethod, init: RequestInit = {}) =>
   <T extends BodyInit>(

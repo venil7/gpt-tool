@@ -5,10 +5,12 @@ import { Entry } from "../entry/Entry";
 export const EntryScreen: React.FC = () => {
   const { entry } = useContext(StoreContext);
 
-  // const { id = 1 } = useParams();
-  // useEffect(() => {
-  // film.load(+id);
-  // }, [film, id]);
-
-  return <Entry entry={entry.data.value} onSubmit={console.log} />;
+  return (
+    <Entry
+      entry={entry.data.value}
+      fetching={entry.fetching.value}
+      error={entry.error.value}
+      onSubmit={entry.submit}
+    />
+  );
 };

@@ -18,13 +18,13 @@ import { HandlerAction, HandlerParams, expressify } from "../util";
 
 const chatCompletion = (): HandlerAction<LogEntry> => {
   return pipe(
-    asks<HandlerParams, string, AppError>(([req]) => req.body),
+    asks<HandlerParams, unknown, AppError>(([req]) => req.body as unknown),
     chain(readerTaskEitherDecoder(SimpleRequestDecoder)),
-    map(fromSimpleRequest),
     bindTo("request"),
     bind("response", ({ request }) =>
       pipe(
         request,
+        fromSimpleRequest,
         createChatCompletion,
         fromTaskEither<AppError, ChatResponse, HandlerParams>
       )

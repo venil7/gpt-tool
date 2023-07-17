@@ -13,7 +13,7 @@ export const Tabs: React.FC<TabsProps> = ({ tabs, children }) => {
     <>
       <Nav tabs>
         {tabs.map((name, idx) => (
-          <NavItem key={name + idx}>
+          <NavItem key={`${name}-${idx}`}>
             <NavLink
               className={classNames({ active: idx === tab })}
               onClick={() => setTab(idx)}

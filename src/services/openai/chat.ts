@@ -1,4 +1,4 @@
-import { chain, of } from "fp-ts/lib/TaskEither";
+import { chain } from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import {
   ChatRequestDecoder,
@@ -6,15 +6,14 @@ import {
 } from "../../decoders/openapi/chat";
 import { taskEitherDecoder } from "../../decoders/util";
 import { Action } from "../../domain/action";
-import { AppError } from "../../domain/error";
-import { ChatRequest, ChatResponse, ChatRole } from "../../domain/openapi/chat";
-import { createPost } from "../fetch";
+import { ChatRequest, ChatResponse } from "../../domain/openapi/chat";
+import { createPost, jsonInit } from "../fetch";
 
 const openAIAuthInit: RequestInit = {
+  ...jsonInit,
   headers: [
-    ["Authorization", `Bearer ${import.meta.env.VITE_OPENAPI_KEY}`],
-    ["Accept", "application/json"],
-    ["Content-Type", "application/json"],
+    ...(jsonInit.headers as [string, string][]),
+    ["Authorization", `Bearer ${import.meta.env.VITE_OPENAPI_KEY as string}`],
   ],
 };
 
@@ -30,29 +29,4 @@ export const createChatCompletion = (
     ),
     chain(taskEitherDecoder(ChatResponseDecoder))
   );
-};
-
-export const createChatCompletion2 = (
-  _req: ChatRequest
-): Action<ChatResponse> => {
-  return of<AppError, ChatResponse>({
-    id: "",
-    object: "",
-    created: new Date(),
-    choices: [
-      {
-        index: 1,
-        message: {
-          role: ChatRole.Assistant,
-          content: "some cont",
-        },
-        finish_reason: "stop",
-      },
-    ],
-    usage: {
-      completion_tokens: 1,
-      prompt_tokens: 1,
-      total_tokens: 1,
-    },
-  });
 };

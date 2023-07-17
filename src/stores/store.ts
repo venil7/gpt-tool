@@ -1,9 +1,9 @@
-import { EntryStore, createEntryStore } from "./entry";
+import { CompletionStore, createCompletionStore } from "./completion";
 
 export type Store = {
-  entry: EntryStore;
+  entry: CompletionStore;
 };
 
 export const createStore = (): Store => ({
-  entry: createEntryStore(),
+  entry: createCompletionStore(),
 });

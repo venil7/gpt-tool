@@ -4,15 +4,16 @@ import ReactMarkdown from "react-markdown";
 import { Col, FormGroup, Input, Label, Row, TabPane } from "reactstrap";
 import remarkGfm from "remark-gfm";
 import { LogEntry } from "../../domain/log_entry";
+import { withError, withFetching } from "../../enhancers";
 import { usePartialState } from "../../hooks/partial_update";
 import { Tabs } from "../utils/Tabs";
 
 export type EntryProps = {
   entry: LogEntry;
-  onSubmit: (entry: LogEntry) => void;
+  onSubmit: (entry: LogEntry) => unknown;
 };
 
-export const Entry: React.FC<EntryProps> = ({ entry }) => {
+const RawEntry: React.FC<EntryProps> = ({ entry }) => {
   const [request, setRequest] = usePartialState(entry.request);
 
   const handleSystemChange = useCallback(
@@ -80,3 +81,5 @@ export const Entry: React.FC<EntryProps> = ({ entry }) => {
     </Tabs>
   );
 };
+
+export const Entry = pipe(RawEntry, withError, withFetching);
