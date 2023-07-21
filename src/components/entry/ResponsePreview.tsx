@@ -16,12 +16,12 @@ import { withNoData } from "../../enhancers";
 import { Tabs } from "../utils/Tabs";
 import { TextArea } from "../utils/TextArea";
 
-export type ResponseProps = {
+export type ResponsePreviewProps = {
   response: ChatResponse;
   disabled?: boolean;
 };
 
-const RawResponse: React.FC<ResponseProps> = ({ response }) => {
+const RawResponsePreview: React.FC<ResponsePreviewProps> = ({ response }) => {
   return (
     <Row>
       <Col>
@@ -38,7 +38,7 @@ const RawResponse: React.FC<ResponseProps> = ({ response }) => {
                   />
                 </TabPane>
                 <TabPane tabId={1}>
-                  <TextArea value={message.content} readonly />
+                  <TextArea rows={20} value={message.content} readonly />
                 </TabPane>
               </Tabs>
             </CardBody>
@@ -50,6 +50,6 @@ const RawResponse: React.FC<ResponseProps> = ({ response }) => {
 };
 
 export const Response = pipe(
-  RawResponse,
+  RawResponsePreview,
   withNoData((p) => p.response)
 );

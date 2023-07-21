@@ -10,20 +10,29 @@ import { createGet, createPost, jsonInit } from "./fetch";
 const get = createGet(jsonInit);
 const post = createPost(jsonInit);
 
-const URL = `http://localhost:${
+const JSON_SERVER_URL = `http://localhost:${
   import.meta.env.VITE_JSON_SERVER_PORT as string
 }/db`;
 
-export const createLogEntry = (logEntry: LogEntry): Action<LogEntry> => {
+export const createJsonServerLogEntry = (
+  logEntry: LogEntry
+): Action<LogEntry> => {
   return pipe(
-    post(`${URL}/log`, LogEntryDecoder.encode(logEntry)),
+    post(`${JSON_SERVER_URL}/log`, LogEntryDecoder.encode(logEntry)),
     chain(taskEitherDecoder(LogEntryDecoder))
   );
 };
 
-export const getLogEntries = (): Action<LogEntry[]> => {
+export const getJsonServerLogEntries = (): Action<LogEntry[]> => {
   return pipe(
-    get(`${URL}/log`),
+    get(`${JSON_SERVER_URL}/log`),
     chain(taskEitherDecoder(t.array(LogEntryDecoder)))
+  );
+};
+
+export const getJsonServerLogEntry = (id: string): Action<LogEntry> => {
+  return pipe(
+    get(`${JSON_SERVER_URL}/log/${id}`),
+    chain(taskEitherDecoder(LogEntryDecoder))
   );
 };

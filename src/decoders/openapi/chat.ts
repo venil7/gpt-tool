@@ -1,12 +1,8 @@
 import { map } from "fp-ts/lib/Array";
 import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
-import { DateFromUnixTime } from "io-ts-types";
 import { ChatCompletionsModel, ChatRole } from "../../domain/openapi/chat";
-// {
-//   "model": "gpt-3.5-turbo",
-//   "messages": [{"role": "system", "content": "You are a helpful assistant."}, {"role": "user", "content": "Hello!"}]
-// }
+import { dateDecoder } from "../util";
 
 const ChatModelDecoder = pipe(
   Object.values(ChatCompletionsModel),
@@ -17,6 +13,7 @@ const ChatModelDecoder = pipe(
       string
     >
 );
+
 const ChatRoleDecoder = pipe(
   Object.values(ChatRole),
   map((v) => t.literal(v) as t.Mixed),
@@ -46,7 +43,7 @@ export const SimpleRequestDecoder = t.type({
 export const ChatResponseDecoder = t.type({
   id: t.string,
   object: t.string,
-  created: DateFromUnixTime,
+  created: dateDecoder(),
   choices: t.array(
     t.type({
       index: t.number,

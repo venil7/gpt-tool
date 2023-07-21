@@ -12,7 +12,7 @@ import { withError, withFetching, withVisibility } from "../../enhancers";
 import { Tabs } from "../utils/Tabs";
 import { Request } from "./Request";
 import { RequestPreview } from "./RequestPreview";
-import { Response } from "./Response";
+import { Response } from "./ResponsePreview";
 
 export type EntryProps = {
   entry: LogEntry;

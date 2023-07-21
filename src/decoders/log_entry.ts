@@ -1,11 +1,11 @@
 import * as t from "io-ts";
-import { DateFromISOString, UUID } from "io-ts-types";
+import { UUID } from "io-ts-types";
 import { ChatResponseDecoder, SimpleRequestDecoder } from "./openapi/chat";
-import { nullableDecoder } from "./util";
+import { dateDecoder, nullableDecoder } from "./util";
 
 export const LogEntryDecoder = t.type({
   id: nullableDecoder(UUID),
-  request: SimpleRequestDecoder /*ChatRequestDecoder*/,
+  request: SimpleRequestDecoder,
   response: nullableDecoder(ChatResponseDecoder),
-  date: nullableDecoder(DateFromISOString),
+  date: nullableDecoder(dateDecoder()),
 });

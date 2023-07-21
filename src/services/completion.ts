@@ -23,9 +23,15 @@ export const createCompletion = (
   );
 };
 
-export const getLogEntries = (): Action<LogEntry[]> => {
+export const getLogEntries = (num: number): Action<LogEntry[]> => {
   return pipe(
-    get(`${URL}/chat/logs`),
+    get(`${URL}/chat/logs?_limit=${num}`),
     chain(taskEitherDecoder(t.array(LogEntryDecoder)))
+  );
+};
+export const getLogEntry = (id: string): Action<LogEntry> => {
+  return pipe(
+    get(`${URL}/chat/entry/${id}`),
+    chain(taskEitherDecoder(LogEntryDecoder))
   );
 };

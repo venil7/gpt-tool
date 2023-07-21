@@ -1,7 +1,12 @@
 import bodyParser from "body-parser";
+import cors from "cors";
 import express from "express";
 import JS from "json-server";
-import { chatCompletionHandler, logEntriesHandler } from "./handlers/handlers";
+import {
+  chatCompletionHandler,
+  logEntriesHandler,
+  logEntryHandler,
+} from "./handlers/handlers";
 
 declare global {
   // eslint-disable-next-line
@@ -29,9 +34,11 @@ const jsonApp: express.Application = express();
 jsonApp.use(middlewares);
 jsonApp.use("/db", jsonServer.use(jsonRouter));
 
+apiApp.use(cors());
 apiApp.use(bodyParser.json());
 
 apiApp.get("/chat/logs", logEntriesHandler);
+apiApp.get("/chat/entry/:id", logEntryHandler);
 apiApp.post("/chat/completion", chatCompletionHandler);
 
 global.apiServer = apiApp.listen(API_PORT, "0.0.0.0", () =>

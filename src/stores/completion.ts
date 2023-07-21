@@ -1,12 +1,13 @@
 import { signal } from "@preact/signals-react";
 import { Identity } from "../domain/action";
 import { LogEntry, defaultLogEntry } from "../domain/log_entry";
-import { createCompletion } from "../services/completion";
+import { createCompletion, getLogEntry } from "../services/completion";
 import { StoreBase, createStoreBase } from "./base";
 
 export type CompletionStore = Identity<
   StoreBase<LogEntry> & {
     submit: (entry: LogEntry) => Promise<unknown>;
+    get: (id: string) => Promise<unknown>;
   }
 >;
 
@@ -19,6 +20,10 @@ export const createCompletionStore = (): CompletionStore => {
     submit: (entry: LogEntry) => {
       const submitAction = createCompletion(entry.request);
       return storeBase.update(submitAction);
+    },
+    get: (id: string) => {
+      const getAction = getLogEntry(id);
+      return storeBase.update(getAction);
     },
   };
 };
