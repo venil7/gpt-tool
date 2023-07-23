@@ -4,6 +4,7 @@ import { UUIDBrand } from "io-ts-types";
 import { v4 as uuidv4 } from "uuid";
 import { LogEntryDecoder } from "../decoders/log_entry";
 import {
+  ChatCompletionsModel,
   ChatResponse,
   ChatRole,
   SimpleRequest,
@@ -28,6 +29,7 @@ export const defaultLogEntry = (): LogEntry =>
       id: "some id",
       created: new Date(),
       object: "message",
+      model: ChatCompletionsModel.GPT35_TURBO,
       usage: {
         completion_tokens: 0,
         prompt_tokens: 0,
