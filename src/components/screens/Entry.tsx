@@ -1,9 +1,13 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { StoreContext } from "../App";
 import { Entry } from "../entry/Entry";
 
 export const EntryScreen: React.FC = () => {
   const { entry } = useContext(StoreContext);
+
+  useEffect(() => {
+    entry.new();
+  }, [entry]);
 
   return (
     <Entry
