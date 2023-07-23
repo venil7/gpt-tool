@@ -15,6 +15,9 @@ export enum ChatCompletionsModel {
   GPT35_TURBO_16K = "gpt-3.5-turbo-16k",
   GPT35_TURBO_16K_0613 = "gpt-3.5-turbo-16k-0613",
 }
+export const ALL_MODELS: ChatCompletionsModel[] =
+  Object.values(ChatCompletionsModel);
+
 export enum ChatRole {
   User = "user",
   System = "system",
