@@ -11,8 +11,13 @@ import {
   TabPane,
 } from "reactstrap";
 import remarkGfm from "remark-gfm";
-import { ChatResponse } from "../../domain/openapi/chat";
+import {
+  ALL_MODELS,
+  ChatCompletionsModel,
+  ChatResponse,
+} from "../../domain/openapi/chat";
 import { withNoData } from "../../enhancers";
+import { Select } from "../utils/Select";
 import { Tabs } from "../utils/Tabs";
 import { TextArea } from "../utils/TextArea";
 
@@ -26,6 +31,11 @@ const RawResponsePreview: React.FC<ResponsePreviewProps> = ({ response }) => {
     <Row>
       <Col>
         <Badge>{format(response.created, "yyyy-MM-dd HH:mm:ss")}</Badge>
+        <Select<ChatCompletionsModel>
+          options={ALL_MODELS}
+          selected={response.model}
+          disabled
+        />
         {response.choices.map(({ index, message }) => (
           <Card key={index}>
             <CardTitle>{message.role}</CardTitle>
@@ -38,7 +48,7 @@ const RawResponsePreview: React.FC<ResponsePreviewProps> = ({ response }) => {
                   />
                 </TabPane>
                 <TabPane tabId={1}>
-                  <TextArea rows={20} value={message.content} readonly />
+                  <TextArea rows={20} value={message.content} readOnly />
                 </TabPane>
               </Tabs>
             </CardBody>

@@ -10,7 +10,7 @@ export type SelectProps<T> = {
   selected?: Nullable<T>;
   toValue?: (t: T) => string;
   toLabel?: (t: T) => string;
-  onSelect: (option: T) => void;
+  onSelect?: (option: T) => void;
 };
 
 export function Select<T>({
@@ -26,9 +26,10 @@ export function Select<T>({
     <Input type="select" disabled={disabled}>
       {options.map((opt) => (
         <option
+          key={JSON.stringify(opt)}
           value={toValue(opt)}
           selected={eq.equals(selected!, opt)}
-          onClick={() => onSelect(opt)}
+          onClick={() => onSelect?.(opt)}
         >
           {toLabel(opt)}
         </option>

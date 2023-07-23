@@ -44,6 +44,7 @@ export const ChatResponseDecoder = t.type({
   id: t.string,
   object: t.string,
   created: dateDecoder(),
+  model: ChatModelDecoder,
   choices: t.array(
     t.type({
       index: t.number,

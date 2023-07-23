@@ -1,5 +1,5 @@
 import React, { createContext } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Link, Navigate, Route, Routes } from "react-router-dom";
 import { Store, createStore } from "../stores/store";
 import "../style.scss";
 import { EntriesScreen } from "./screens/Entries";
@@ -15,6 +15,9 @@ export const App: React.FC = () => {
       <h3>GPT tool</h3>
       <StoreContext.Provider value={store}>
         <BrowserRouter>
+          <>
+            <Link to="/entry">New</Link> | <Link to="/log">Log</Link>
+          </>
           <Routes>
             <Route path="/entry" element={<EntryScreen />} />
             <Route path="/log" element={<LogsScreen />} />
