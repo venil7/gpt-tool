@@ -25,7 +25,7 @@ export const createJsonServerLogEntry = (
 
 export const getJsonServerLogEntries = (): Action<LogEntry[]> => {
   return pipe(
-    get(`${JSON_SERVER_URL}/log`),
+    get(`${JSON_SERVER_URL}/log?_sort=date&_order=desc`),
     chain(taskEitherDecoder(t.array(LogEntryDecoder)))
   );
 };

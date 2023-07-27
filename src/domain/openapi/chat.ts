@@ -37,10 +37,11 @@ export const defaultSimpleRequest = (): SimpleRequest => ({
 });
 
 export const fromSimpleRequest = ({
+  model,
   system,
   user,
 }: SimpleRequest): ChatRequest => ({
-  model: ChatCompletionsModel.GPT35_TURBO_16K,
+  model,
   messages: [
     {
       role: ChatRole.System,
