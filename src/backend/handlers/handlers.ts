@@ -46,8 +46,15 @@ export const chatCompletionHandler = expressify(chatCompletion());
 
 const logEntries = (): HandlerAction<LogEntry[]> => {
   return pipe(
-    getJsonServerLogEntries(),
-    fromTaskEither<AppError, LogEntry[], HandlerParams>
+    asks<HandlerParams, string, AppError>(
+      ([req]) => req.query["_limit"] as string
+    ),
+    chain((lmit) =>
+      pipe(
+        getJsonServerLogEntries(Number(lmit)),
+        fromTaskEither<AppError, LogEntry[], HandlerParams>
+      )
+    )
   );
 };
 export const logEntriesHandler = expressify(logEntries());

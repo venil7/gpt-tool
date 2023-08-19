@@ -23,9 +23,9 @@ export const createJsonServerLogEntry = (
   );
 };
 
-export const getJsonServerLogEntries = (): Action<LogEntry[]> => {
+export const getJsonServerLogEntries = (limit: number): Action<LogEntry[]> => {
   return pipe(
-    get(`${JSON_SERVER_URL}/log?_sort=date&_order=desc`),
+    get(`${JSON_SERVER_URL}/log?_sort=date&_order=desc&_limit=${limit}`),
     chain(taskEitherDecoder(t.array(LogEntryDecoder)))
   );
 };
