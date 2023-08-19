@@ -10,6 +10,7 @@ import {
 import { LogEntry } from "../../domain/log_entry";
 import { withError, withFetching, withVisibility } from "../../enhancers";
 import { Tabs } from "../utils/Tabs";
+import { Diff } from "./Diff";
 import { Request } from "./Request";
 import { RequestPreview } from "./RequestPreview";
 import { Response } from "./ResponsePreview";
@@ -31,7 +32,7 @@ const RawEntry: React.FC<EntryProps> = ({ entry, onSubmit, disabled }) => {
 
   return (
     <>
-      <Tabs tabs={["Raw Request", "Preview Request", "Response"]}>
+      <Tabs tabs={["Raw Request", "Preview Request", "Response", "Diff"]}>
         <TabPane tabId={0}>
           <Request
             request={request}
@@ -44,6 +45,9 @@ const RawEntry: React.FC<EntryProps> = ({ entry, onSubmit, disabled }) => {
         </TabPane>
         <TabPane tabId={2} hidden={!entry.response}>
           <Response response={entry.response} disabled={disabled} />
+        </TabPane>
+        <TabPane tabId={3} hidden={!entry.response}>
+          <Diff entry={entry} />
         </TabPane>
       </Tabs>
 
