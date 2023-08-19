@@ -2,8 +2,8 @@ import * as t from "io-ts";
 import {
   ChatRequestDecoder,
   ChatResponseDecoder,
-  SimpleRequestDecoder,
-} from "../../decoders/openapi/chat";
+} from "../decoders/openapi/chat";
+import { SimpleRequest } from "./simple_request";
 
 export enum ChatCompletionsModel {
   GPT4 = "gpt-4",
@@ -27,14 +27,6 @@ export enum ChatRole {
 
 export type ChatRequest = t.TypeOf<typeof ChatRequestDecoder>;
 export type ChatResponse = t.TypeOf<typeof ChatResponseDecoder>;
-
-export type SimpleRequest = t.TypeOf<typeof SimpleRequestDecoder>;
-
-export const defaultSimpleRequest = (): SimpleRequest => ({
-  model: ChatCompletionsModel.GPT35_TURBO_16K,
-  system: "",
-  user: "",
-});
 
 export const fromSimpleRequest = ({
   model,

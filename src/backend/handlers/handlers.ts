@@ -9,9 +9,9 @@ import {
 import { flow, pipe } from "fp-ts/lib/function";
 import { SimpleRequestDecoder } from "../../decoders/openapi/chat";
 import { readerTaskEitherDecoder } from "../../decoders/util";
+import { ChatResponse, fromSimpleRequest } from "../../domain/chat";
 import { AppError } from "../../domain/error";
 import { LogEntry, logEntry as createLogEntry } from "../../domain/log_entry";
-import { ChatResponse, fromSimpleRequest } from "../../domain/openapi/chat";
 import {
   createJsonServerLogEntry,
   getJsonServerLogEntries,

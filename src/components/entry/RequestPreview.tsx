@@ -1,7 +1,7 @@
 import ReactMarkdown from "react-markdown";
 import { Col, Row } from "reactstrap";
 import remarkGfm from "remark-gfm";
-import { SimpleRequest } from "../../domain/openapi/chat";
+import { SimpleRequest } from "../../domain/simple_request";
 
 export type RequestPreviewProps = {
   request: SimpleRequest;

@@ -1,7 +1,7 @@
 import { map } from "fp-ts/lib/Array";
 import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
-import { ChatCompletionsModel, ChatRole } from "../../domain/openapi/chat";
+import { ChatCompletionsModel, ChatRole } from "../../domain/chat";
 import { dateDecoder } from "../util";
 
 const ChatModelDecoder = pipe(

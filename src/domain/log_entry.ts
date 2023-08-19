@@ -3,13 +3,8 @@ import * as t from "io-ts";
 import { UUIDBrand } from "io-ts-types";
 import { v4 as uuidv4 } from "uuid";
 import { LogEntryDecoder } from "../decoders/log_entry";
-import {
-  ChatCompletionsModel,
-  ChatResponse,
-  ChatRole,
-  SimpleRequest,
-  defaultSimpleRequest,
-} from "./openapi/chat";
+import { ChatCompletionsModel, ChatResponse, ChatRole } from "./chat";
+import { SimpleRequest, defaultSimpleRequest } from "./simple_request";
 
 export type LogEntry = t.TypeOf<typeof LogEntryDecoder>;
 
@@ -24,8 +19,8 @@ export const logEntry = (
 });
 
 export const defaultLogEntry = (): LogEntry =>
-  pipe(defaultSimpleRequest(), (r) =>
-    logEntry(r, {
+  pipe(defaultSimpleRequest(), (simpleReq) =>
+    logEntry(simpleReq, {
       id: "some id",
       created: new Date(),
       object: "message",

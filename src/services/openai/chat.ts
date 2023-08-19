@@ -6,7 +6,7 @@ import {
 } from "../../decoders/openapi/chat";
 import { taskEitherDecoder } from "../../decoders/util";
 import { Action } from "../../domain/action";
-import { ChatRequest, ChatResponse } from "../../domain/openapi/chat";
+import { ChatRequest, ChatResponse } from "../../domain/chat";
 import { createPost, jsonInit } from "../fetch";
 
 const openAIAuthInit: RequestInit = {

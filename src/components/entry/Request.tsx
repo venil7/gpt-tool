@@ -1,9 +1,6 @@
 import { Col, FormGroup, Label, Row } from "reactstrap";
-import {
-  ALL_MODELS,
-  ChatCompletionsModel,
-  SimpleRequest,
-} from "../../domain/openapi/chat";
+import { ALL_MODELS, ChatCompletionsModel } from "../../domain/chat";
+import { SimpleRequest, numWords } from "../../domain/simple_request";
 import { Select } from "../utils/Select";
 import { TextArea } from "../utils/TextArea";
 
@@ -18,6 +15,7 @@ export const Request: React.FC<RequestProps> = ({
   onChange,
   disabled,
 }) => {
+  const wordCount = numWords(request);
   const handleChange =
     (key: keyof SimpleRequest) => (val: SimpleRequest[typeof key]) =>
       onChange({ ...request, [key]: val });
@@ -57,6 +55,7 @@ export const Request: React.FC<RequestProps> = ({
             onInput={handleChange("user")}
           />
         </FormGroup>
+        Word count: {wordCount}
       </Col>
     </Row>
   );

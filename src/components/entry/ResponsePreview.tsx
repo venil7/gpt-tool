@@ -15,7 +15,7 @@ import {
   ALL_MODELS,
   ChatCompletionsModel,
   ChatResponse,
-} from "../../domain/openapi/chat";
+} from "../../domain/chat";
 import { withNoData } from "../../enhancers";
 import { Select } from "../utils/Select";
 import { Tabs } from "../utils/Tabs";

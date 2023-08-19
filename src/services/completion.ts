@@ -6,7 +6,7 @@ import { SimpleRequestDecoder } from "../decoders/openapi/chat";
 import { taskEitherDecoder } from "../decoders/util";
 import { Action } from "../domain/action";
 import { LogEntry } from "../domain/log_entry";
-import { SimpleRequest } from "../domain/openapi/chat";
+import { SimpleRequest } from "../domain/simple_request";
 import { createGet, createPost, jsonInit } from "./fetch";
 
 const get = createGet(jsonInit);
