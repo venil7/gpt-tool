@@ -1,6 +1,15 @@
 import classNames from "classnames";
+import { pipe } from "fp-ts/lib/function";
 import { PropsWithChildren, useState } from "react";
-import { Nav, NavItem, NavLink, TabContent } from "reactstrap";
+import {
+  Nav,
+  NavItem,
+  NavLink,
+  TabContent,
+  TabPaneProps,
+  TabPane as TabPaneRaw,
+} from "reactstrap";
+import { withVisibility } from "../../enhancers";
 
 export type TabsProps = PropsWithChildren<{
   tabs: string[];
@@ -27,3 +36,8 @@ export const Tabs: React.FC<TabsProps> = ({ tabs, children }) => {
     </>
   );
 };
+
+export const TabPane = pipe(
+  TabPaneRaw as unknown as React.FC<TabPaneProps>,
+  withVisibility
+);

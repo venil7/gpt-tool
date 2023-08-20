@@ -1,18 +1,11 @@
 import { pipe } from "fp-ts/lib/function";
 import { useState } from "react";
-import {
-  Button,
-  Col,
-  Row,
-  TabPaneProps,
-  TabPane as TabPaneRaw,
-} from "reactstrap";
+import { Button, Col, Row } from "reactstrap";
 import { LogEntry } from "../../domain/log_entry";
-import { withError, withFetching, withVisibility } from "../../enhancers";
-import { Tabs } from "../utils/Tabs";
+import { withError, withFetching } from "../../enhancers";
+import { TabPane, Tabs } from "../utils/Tabs";
 import { Diff } from "./Diff";
 import { Request } from "./Request";
-import { RequestPreview } from "./RequestPreview";
 import { Response } from "./ResponsePreview";
 
 export type EntryProps = {
@@ -21,18 +14,13 @@ export type EntryProps = {
   disabled?: boolean;
 };
 
-const TabPane = pipe(
-  TabPaneRaw as unknown as React.FC<TabPaneProps>,
-  withVisibility
-);
-
 const RawEntry: React.FC<EntryProps> = ({ entry, onSubmit, disabled }) => {
   const [request, setRequest] = useState(entry.request);
   const handleClick = () => onSubmit({ ...entry, request });
 
   return (
     <>
-      <Tabs tabs={["Raw Request", "Preview Request", "Response", "Diff"]}>
+      <Tabs tabs={["Request", "Response", "Diff"]}>
         <TabPane tabId={0}>
           <Request
             request={request}
@@ -40,13 +28,10 @@ const RawEntry: React.FC<EntryProps> = ({ entry, onSubmit, disabled }) => {
             disabled={disabled}
           />
         </TabPane>
-        <TabPane tabId={1}>
-          <RequestPreview request={request} />
-        </TabPane>
-        <TabPane tabId={2} hidden={!entry.response}>
+        <TabPane tabId={1} hidden={!entry.response}>
           <Response response={entry.response} disabled={disabled} />
         </TabPane>
-        <TabPane tabId={3} hidden={!entry.response}>
+        <TabPane tabId={2} hidden={!entry.response}>
           <Diff entry={entry} />
         </TabPane>
       </Tabs>

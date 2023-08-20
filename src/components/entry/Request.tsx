@@ -2,7 +2,9 @@ import { Col, FormGroup, Label, Row } from "reactstrap";
 import { ALL_MODELS, ChatCompletionsModel } from "../../domain/chat";
 import { SimpleRequest, numWords } from "../../domain/simple_request";
 import { Select } from "../utils/Select";
+import { TabPane, Tabs } from "../utils/Tabs";
 import { TextArea } from "../utils/TextArea";
+import { RequestPreview } from "./RequestPreview";
 
 export type RequestProps = {
   request: SimpleRequest;
@@ -45,17 +47,24 @@ export const Request: React.FC<RequestProps> = ({
         </FormGroup>
       </Col>
       <Col sm="12">
-        <FormGroup>
-          <Label for="user">User</Label>
-          <TextArea
-            rows={10}
-            id="user"
-            disabled={disabled}
-            value={request.user}
-            onInput={handleChange("user")}
-          />
-        </FormGroup>
-        Word count: {wordCount}
+        <Tabs tabs={["Raw", "Preview"]}>
+          <TabPane tabId={0}>
+            <FormGroup>
+              <Label for="user">User</Label>
+              <TextArea
+                rows={10}
+                id="user"
+                disabled={disabled}
+                value={request.user}
+                onInput={handleChange("user")}
+              />
+            </FormGroup>
+            Word count: {wordCount}
+          </TabPane>
+          <TabPane tabId={1}>
+            <RequestPreview request={request} />
+          </TabPane>
+        </Tabs>
       </Col>
     </Row>
   );
