@@ -4,25 +4,18 @@ import * as t from "io-ts";
 import { ChatCompletionsModel, ChatRole } from "../../domain/chat";
 import { dateDecoder } from "../util";
 
-const ChatModelDecoder = pipe(
-  Object.values(ChatCompletionsModel),
-  map((v) => t.literal(v) as t.Mixed),
-  (codecs) =>
-    t.union(codecs as unknown as [t.Mixed, t.Mixed, ...t.Mixed[]]) as t.Type<
-      ChatCompletionsModel,
-      string
-    >
-);
+const EnumDecoder = <TEnum extends string>(enumObj: {
+  [k in string]: TEnum;
+}): t.Type<TEnum, string> =>
+  pipe(
+    Object.values(enumObj) as string[],
+    map((v: string) => t.literal(v) as t.Mixed),
+    (codecs) => t.union(codecs as [t.Mixed, t.Mixed, ...t.Mixed[]])
+  );
 
-const ChatRoleDecoder = pipe(
-  Object.values(ChatRole),
-  map((v) => t.literal(v) as t.Mixed),
-  (codecs) =>
-    t.union(codecs as unknown as [t.Mixed, t.Mixed, ...t.Mixed[]]) as t.Type<
-      ChatRole,
-      string
-    >
-);
+const ChatModelDecoder = EnumDecoder(ChatCompletionsModel);
+
+const ChatRoleDecoder = EnumDecoder(ChatRole);
 
 export const ChatMessageDecoder = t.type({
   role: ChatRoleDecoder,
