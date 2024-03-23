@@ -36,11 +36,11 @@ export const createFetch =
   };
 
 export const createGet =
-  (init: RequestInit = {}) =>
+  (init: RequestInit = jsonInit) =>
   (url: string) =>
     createFetch(HttpMethod.Get, init)(url);
 
 export const createPost =
-  (init: RequestInit = {}) =>
+  (init: RequestInit = jsonInit) =>
   <T extends {}>(url: string, body: T) =>
     createFetch(HttpMethod.Post, init)(url, JSON.stringify(body));

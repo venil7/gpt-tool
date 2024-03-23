@@ -5,10 +5,10 @@ import { LogEntryDecoder } from "../decoders/log_entry";
 import { taskEitherDecoder } from "../decoders/util";
 import { Action } from "../domain/action";
 import { LogEntry } from "../domain/log_entry";
-import { createGet, createPost, jsonInit } from "./fetch";
+import { createGet, createPost } from "./fetch";
 
-const get = createGet(jsonInit);
-const post = createPost(jsonInit);
+const get = createGet();
+const post = createPost();
 
 const JSON_SERVER_URL = `http://localhost:${
   import.meta.env.VITE_JSON_SERVER_PORT as string
